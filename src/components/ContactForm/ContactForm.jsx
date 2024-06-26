@@ -5,7 +5,8 @@ import { useId } from 'react';
 import * as Yup from 'yup';
 import { nanoid } from 'nanoid';
 import { useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contactsOps';
+import { addContact } from '../../redux/contacts/operations';
+
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().min(3, 'Minimum 3 symbols').max(50, 'Maximum 50 symbols').required('required'),
