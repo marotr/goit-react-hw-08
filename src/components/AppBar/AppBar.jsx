@@ -20,3 +20,4 @@ import AuthNav from "../AuthNav/AuthNav";
  }
  
  export default AppBar
+ 
