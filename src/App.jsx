@@ -1,9 +1,6 @@
 
 import { lazy, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ContactForm from './components/ContactForm/ContactForm';
-import SearchBox from './components/SearchBox/SearchBox';
-import ContactList from './components/ContactList/ContactList';
 import { addContact, deleteContact, fetchContacts } from './redux/contacts/operations';
 import { selectFilteredContacts } from './redux/contacts/slice';
 import { changeFilter, selectNameFilter } from './redux/filters/slice';
@@ -55,18 +52,19 @@ const App = () => {
         <Route
           path="/tasks"
           element={
-            <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
+            <PrivateRoute redirectTo="/login" component={<ContactsPage 
+            contacts ={contacts}
+            onAddContact = {handleAddContact}
+            onDeleteContact = {handleDeleteContact}
+            filter = {filter}
+            onFilterChange = {handleFilterChange}/>
+          } />
           }
         />
          </Routes>
 
     </Layout>
-    // <div>
-    //   <h1>Phonebook</h1>
-    //   <ContactForm onAddContact={handleAddContact} />
-    //   <SearchBox value={filter} onFilter={handleFilterChange} />
-    //   <ContactList contacts={contacts} onDelete={handleDeleteContact} />
-    // </div>
+  
   );
 };
 
