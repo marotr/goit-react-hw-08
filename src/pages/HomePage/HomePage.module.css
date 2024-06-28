@@ -1,0 +1,23 @@
+.container {
+    min-height: calc(100vh - 50px);
+    align-items: center ; 
+justify-content: center;
+background-image: url(../../components/img/background.jpg);
+background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+padding: 20px;}
+
+.title{
+
+    font-weight: 500;
+    font-size: 48px;
+    text-align: center;
+
+}
+.slogan{
+    font-weight: 300;
+    font-size: 28px;
+    text-align: center;
+    font-style: italic;
+}
