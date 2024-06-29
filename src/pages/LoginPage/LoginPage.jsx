@@ -1,47 +1,43 @@
-import { Field, Form, Formik } from 'formik'
-
+import { Field, Form, Formik } from 'formik';
 import { useDispatch } from 'react-redux';
-import { login } from '../../redux/auth/operations';
-import css from '../RegistrationPage/RegistrationAndLogin.module.css'
+import { register } from '../../redux/auth/operations';
+import css from './LoginPage.module.css'
 
-const LoginPage = () => {
+
+const RegistrationPage = () => {
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-
+  const handleSubmit = (values, { resetForm }) => {
     dispatch(
-      login({
-        email: form.elements.email.value,
-        password: form.elements.password.value,
+      register({
+       
+        email: values.email,
+        password: values.password,
       })
-    )
-      .unwrap()
-      .then(() => {
-        console.log('login success');
-      })
-      .catch(() => {
-        console.log('login error');
-      });
-
-    form.reset();
+    );
+    resetForm();
   };
-  
-	
-	return (
-		<Formik className={css.container} initialValues={{ password: '', email: '' }} onSubmit={handleSubmit}>
-			<Form>
-				<label >Email: </label>
-				<Field  type = "email" name='email'  />
-			
-				<label >Password: </label>
-				<Field name='password'  type='password' />
-				
-				<button type='submit'>Login</button>
-			</Form>
-		</Formik>
-	)
-}
 
-export default LoginPage
+  return (
+    <div className={css.container}>
+   <Formik
+      initialValues={{ email: '', password: '' }}
+      onSubmit={handleSubmit}
+    >
+      <Form className={css.form}>
+        <label className={css.label}>Email: </label>
+        <Field  className={css.field} name="email" type="email" />
+      
+        <label className={css.label}>Password: </label>
+        <Field  className={css.field} name="password" type="password" />
+      
+        <button type="submit">Register</button>
+      </Form>
+    </Formik>
+
+    </div>
+ 
+  );
+};
+
+export default RegistrationPage;
