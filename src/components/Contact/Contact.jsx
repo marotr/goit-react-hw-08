@@ -1,4 +1,3 @@
-
 import css from './Contact.module.css';
 import { IoPerson } from 'react-icons/io5';
 import { FaPhoneAlt } from 'react-icons/fa';
@@ -23,4 +22,4 @@ const Contact = ({ name, number, onDelete }) => {
   );
 };
 
-export default Contact; 
+export default Contact;

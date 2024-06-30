@@ -44,8 +44,9 @@ export const contactsSlice = createSlice({
         const index = state.items.findIndex(
           (contact) => contact.id === action.payload.id
         );
-        
+        if (index !== -1) {
           state.items.splice(index, 1);
+        }
         
       })
       .addCase(deleteContact.rejected, handleRejected);
