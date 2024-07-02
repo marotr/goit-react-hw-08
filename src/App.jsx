@@ -1,12 +1,12 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, deleteContact, fetchContacts } from './redux/contacts/operations';
+import { fetchContacts } from './redux/contacts/operations';
 import { Route, Routes } from 'react-router-dom';
 import { RestrictedRoute } from './components/RestrictedRoute';
 import { PrivateRoute } from './components/PrivateRoute';
 import { Layout } from './components/Layout';
-import { changeFilter, selectNameFilter } from './redux/filters/slice';
-import { selectFilteredContacts } from './redux/contacts/slice';
+import { selectIsRefreshing, selectIsLoggedIn } from './redux/auth/selectors';
+import { refreshUser } from './redux/auth/operations';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const RegistrationPage = lazy(() => import('./pages/RegistrationPage/RegistrationPage'));
@@ -15,24 +15,22 @@ const ContactsPage = lazy(() => import('./pages/ContactsPage/ContactsPage'));
 
 const App = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(selectNameFilter);
-  const contacts = useSelector(selectFilteredContacts);
+  const isRefreshing = useSelector(selectIsRefreshing);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
 
-  const handleDeleteContact = (contactId) => {
-    dispatch(deleteContact(contactId));
-  };
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchContacts());
+    }
+  }, [dispatch, isLoggedIn]);
 
-  const handleFilterChange = (filter) => {
-    dispatch(changeFilter(filter));
-  };
-
-  const handleAddContact = (newContact) => {
-    dispatch(addContact(newContact));
-  };
+  if (isRefreshing) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Layout>
@@ -52,15 +50,7 @@ const App = () => {
             element={
               <PrivateRoute
                 redirectTo="/login"
-                component={() => (
-                  <ContactsPage
-                    contacts={contacts}
-                    onAddContact={handleAddContact}
-                    onDeleteContact={handleDeleteContact}
-                    filter={filter}
-                    onFilterChange={handleFilterChange}
-                  />
-                )}
+                component={ContactsPage}
               />
             }
           />
